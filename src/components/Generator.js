@@ -1,44 +1,54 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import ShowMessage from "./ShowMessage"
 
 class Generator extends React.Component {
     constructor(props){
         super(props);
 this.state = {
- 
-    val: {inputValue: ""}
+    addVal: [],
+    val: []
     }
-console.log(this.state.val)
+
+console.log(this.state)
 this.changeText = this.changeText.bind(this);
 this.addValue = this.addValue.bind(this);
-    }
+}
 
-changeText(evt){
+changeText(evt) {
 console.log(evt.target.value)
-this.setState({inputValue: evt.target.value})
-console.log(this.state.inputValue)
+this.setState({val: [...evt.target.value].join("")})
+}
 
-}
-addValue(evt){
- var value = evt.target.value;
- this.setState({[evt.target.name]: this.state.inputValue})
-   evt.preventDefault();
+
+addValue(evt) {
+    // let peoplArrayClone = [...this.state.val];
+ this.setState(previousState => ({
+     addVal: [...previousState.addVal, [...this.state.val].join("")],
+     val: []
+ }))
+ 
    console.log(this.state)
+   evt.preventDefault();
 }
+
+
     render(){
         return(
             <div>
+                {
+                <ShowMessage words={this.state.addVal}/>
+    }
                 <form>
                     <label htmlFor="text">Add words
-        <input type="text" value={this.state.inputValue} onChange={evt => this.changeText(evt)} name={this.state.val}/>
+        <input type="text" value={this.state.val} onChange={evt => this.changeText(evt)} name={this.state.val}/>
                     </label>
                     <label>
-                        <button >Show value</button>
+                        <button >Show message</button>
                         <button onClick={this.addValue}>Add value</button>
                     </label>
                 </form>
                 <div>
-        <p>Im a {this.state.val.name}</p>
+        <p>Im a {this.state.val} updated {this.state.addVal}</p>
                 </div>
             </div>
         )
