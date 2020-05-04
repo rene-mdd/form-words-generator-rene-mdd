@@ -9,7 +9,7 @@ class ShowMessage extends React.Component {
         }
 
         this.wordsFunc = this.wordsFunc.bind(this);
-        this.counter = 0;
+       
     }
 
     componentDidMount() {
@@ -24,7 +24,8 @@ class ShowMessage extends React.Component {
 
     wordsFunc() {
         this.setState((state) => {
-            const newCounter = this.props.words.length - 1 == this.state.counter ? 0 : state.counter++
+            const newCounter = this.props.words.length == this.state.counter ? 0 : state.counter++;
+            console.log(newCounter)
             return { 
                 counter: newCounter
              }
@@ -40,7 +41,7 @@ class ShowMessage extends React.Component {
     render() {
 
         return (
-            <div>
+            <div className="styleComponent">
                 <p >I'm a {this.props.words[this.state.counter]}</p>
             </div>
         )

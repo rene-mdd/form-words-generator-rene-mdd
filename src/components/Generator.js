@@ -7,7 +7,8 @@ class Generator extends React.Component {
         this.state = {
             addVal: [],
             val: '',
-            plug: false
+            plug: false,
+            errorMsg: ''
         }
 
         console.log(this.state)
@@ -25,7 +26,7 @@ class Generator extends React.Component {
         // let peoplArrayClone = [...this.state.val];
         this.setState(previousState => ({
             addVal: [...previousState.addVal, this.state.val],
-            val: []
+            val: ""
         }))
         console.log(this.state)
         evt.preventDefault();
@@ -33,29 +34,32 @@ class Generator extends React.Component {
 
     show(e) {
         e.preventDefault();
-        if (this.state.addVal.length >= 2) {
+        if (this.state.addVal.length > 2) {
             this.setState({ plug: true })
+        }
+        if(this.state.addVal.length < 2){
+            this.setState({errorMsg: "You need to fill 3 words"})
         }
     }
 
 
     render() {
         return (
-            <div>
+            <div className="main">
                 {this.state.plug &&
                     <ShowMessage words={this.state.addVal} />
                 }
                 <form>
-                    <label htmlFor="text">Add words
+                    <label htmlFor="text">Add words <br/>
         <input type="text" value={this.state.val} onChange={evt => this.changeText(evt)} name={this.state.val} />
                     </label>
                     <label>
                         <button onClick={this.show}>Show message</button>
-                        <button onClick={this.addValue}>Add value</button>
+                        <button onClick={this.addValue}>Add new word</button>
                     </label>
                 </form>
                 <div>
-                    <p>Im a {this.state.val} updated {this.state.addVal}</p>
+            <p>{this.state.errorMsg}</p>
                 </div>
             </div>
         )
